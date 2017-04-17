@@ -2,13 +2,309 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>UN ELECTRONICA</title>
-    <description>Jugando con la electrónica 
+    <description>Jugando con la electrónica
 </description>
-    <link>http://localhost:4001/</link>
-    <atom:link href="http://localhost:4001/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 09 Apr 2017 20:16:42 -0500</pubDate>
-    <lastBuildDate>Sun, 09 Apr 2017 20:16:42 -0500</lastBuildDate>
+    <link>http://unelectronica.github.io/</link>
+    <atom:link href="http://unelectronica.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 16 Apr 2017 22:34:23 -0500</pubDate>
+    <lastBuildDate>Sun, 16 Apr 2017 22:34:23 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Módulos ESP8266</title>
+        <description>&lt;p&gt;El corazón de estos módulos es el chip ESP8266 fabricado por &lt;a href=&quot;http://espressif.com/en/products/esp8266/&quot; target=&quot;_blank&quot;&gt;Espressif&lt;/a&gt; una empresa China situada en Shangai, los módulos ESP8266 son diseñados desde el principio pensando en la Internet
+    of Things ( IOT) nos permiten conectarnos a un punto de acceso de nuestra red WiFi, pueden funcionar como un cliente o servidor, también nos permite crear nuestra propia red WiFi comportándose como un punto de acceso.&lt;/p&gt;
+
+&lt;p&gt;Estos módulos vienen por defecto con un firmware que permite que sean manejan por comandos AT permitiendo la comunicación con otros sistemas embebidos por puerto serie.&lt;/p&gt;
+&lt;p&gt;Los ESP8266 son chips muy potentes (mas potentes que muchos microcontroladores Atmel de los usados en las tarjetas arduino) y pueden ser usados independientemente de otro microcontrolador ya que cuenta con GPIOs, un ADC, los pines pueden comportarse como
+    salidas PWM, puertos I2C,SPI, UART.&lt;/p&gt;
+
+&lt;h2&gt;Especificaciones del chip ESP8266&lt;/h2&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/ESP8266EX-Block-Diagram.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Diagrama de bloques ESP8266&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;ol&gt;:
+    &lt;li&gt;Hardware:
+        &lt;ul&gt;
+            &lt;li&gt;Procesador interno Tensilica L106 32-bit a 80 MHz y se le puede subir hasta 160Mhz.&lt;/li&gt;
+            &lt;li&gt;Voltaje de operacón 3.0 V ~ 3.6 V&lt;/li&gt;
+            &lt;li&gt;Corriente de operacion: al rededor de los 80 mA&lt;/li&gt;
+            &lt;li&gt;Temperatura de operación: -40°C ~ 125°C&lt;/li&gt;
+            &lt;li&gt;Periféricos: UART/SDIO/SPI/I2C/I2S/IR Remote Control GPIO/ADC/PWM&lt;/li&gt;
+            &lt;li&gt;17 GPIOs, pueden ser configurados con resistencia Pull-up o Pull-down o seteados a alta impedancia.&lt;/li&gt;
+            &lt;li&gt;Soporta IPv4 y los protocolos TCP/UDP/HTTP/FTP&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;WIFI
+        &lt;ul&gt;
+            &lt;li&gt;Protocolos: 802.11 b/g/n/e/i&lt;/li&gt;
+            &lt;li&gt;Rango de frecuencia: 2.4 G ~ 2.5 G (2400M ~ 2483.5M)&lt;/li&gt;
+            &lt;li&gt;Modo WiFi: station/softAP/SoftAP+station&lt;/li&gt;
+            &lt;li&gt;Seguridad: WPA/WPA2&lt;/li&gt;
+            &lt;li&gt;Encriptación: WEP/TKIP/AES&lt;/li&gt;
+            &lt;li&gt;Protocolos de red: IPv4, TCP/UDP/HTTP/FTP&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+
+    &lt;li&gt;Intefaz SPI&lt;/li&gt;
+    La interfaz SPI soporta modo maestro y esclavo
+    &lt;div class=&quot;table-responsive&quot;&gt;
+    &lt;table class=&quot;table table-hover table-bordered&quot;&gt;
+    &lt;tr class=&quot;info&quot;&gt;
+      &lt;td&gt;Nombre pin&lt;/td&gt;
+      &lt;td&gt;Número de pin&lt;/td&gt;
+      &lt;td&gt;IO&lt;/td&gt;
+      &lt;td&gt;Nombre funcion&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SDIO_CLK&lt;/td&gt;
+      &lt;td&gt;21&lt;/td&gt;
+      &lt;td&gt;IO6&lt;/td&gt;
+      &lt;td&gt;SPICLK&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SDIO_DATA0&lt;/td&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;IO7&lt;/td&gt;
+      &lt;td&gt;SPIQ/MISO&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SDIO_DATA1&lt;/td&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;IO8&lt;/td&gt;
+      &lt;td&gt;SPID/MOSI&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SDIO_DATA_2&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;IO9&lt;/td&gt;
+      &lt;td&gt;SPIHD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SDIO_DATA_3&lt;/td&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;IO10&lt;/td&gt;
+      &lt;td&gt;SPIWP&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;U0TXD&lt;/td&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;IO1&lt;/td&gt;
+      &lt;td&gt;SPICS1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;GPIO0&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;IO0&lt;/td&gt;
+      &lt;td&gt;SPICS2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;li&gt;Intefaz I2C&lt;/li&gt;
+    El modulo de comunicación I2C funciona a una frecuencia máxima de 100 KHz
+    &lt;div class=&quot;table-responsive&quot;&gt;
+    &lt;table class=&quot;table table-hover table-bordered&quot;&gt;
+      &lt;tr class=&quot;info&quot;&gt;
+        &lt;td&gt;Nombre pin&lt;/td&gt;
+        &lt;td&gt;Número de pin&lt;/td&gt;
+        &lt;td&gt;IO&lt;/td&gt;
+        &lt;td&gt;Nombre funcion&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;MTMS&lt;/td&gt;
+        &lt;td&gt;9&lt;/td&gt;
+        &lt;td&gt;IO14&lt;/td&gt;
+        &lt;td&gt;I2C_SCL&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;GPIO2&lt;/td&gt;
+        &lt;td&gt;14&lt;/td&gt;
+        &lt;td&gt;IO2&lt;/td&gt;
+        &lt;td&gt;I2C_SDA&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;li&gt;Interfaz UART&lt;/li&gt;
+    &lt;div class=&quot;table-responsive&quot;&gt;
+    &lt;table class=&quot;table table-hover table-bordered&quot;&gt;
+    &lt;tr class=&quot;info&quot;&gt;
+      &lt;td&gt;Tipo pin&lt;/td&gt;
+      &lt;td&gt;Nombre pin&lt;/td&gt;
+      &lt;td&gt;Número de pin&lt;/td&gt;
+      &lt;td&gt;IO&lt;/td&gt;
+      &lt;td&gt;Nombre funcion&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;active&quot; rowspan=&quot;4&quot;&gt;UART0&lt;/td&gt;
+      &lt;td&gt;U0RXD&lt;/td&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;IO3&lt;/td&gt;
+      &lt;td&gt;U0RXD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;U0TXD&lt;/td&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;IO1&lt;/td&gt;
+      &lt;td&gt;U0TXD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MTDO&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;IO15&lt;/td&gt;
+      &lt;td&gt;U0RTS&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MTCK&lt;/td&gt;
+      &lt;td&gt;IO13&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;U0CTS&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;active&quot; rowspan=&quot;2&quot;&gt;UART1&lt;/td&gt;
+      &lt;td&gt;GPIO2&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;IO2&lt;/td&gt;
+      &lt;td&gt;U1TXD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SD_D1&lt;/td&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;IO8&lt;/td&gt;
+      &lt;td&gt;U1RXD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;li&gt;Modulación de ancho de pulso (PWM)&lt;/li&gt;
+    Cuenta con 4 módulos PWM definidos en la siguiente tabla:
+    &lt;div class=&quot;table-responsive&quot;&gt;
+    &lt;table class=&quot;table table-hover table-bordered&quot;&gt;
+      &lt;tr class=&quot;info&quot;&gt;
+        &lt;td&gt;Nombre pin&lt;/td&gt;
+        &lt;td&gt;Número de pin&lt;/td&gt;
+        &lt;td&gt;IO&lt;/td&gt;
+        &lt;td&gt;Nombre funcion&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;MTDI&lt;/td&gt;
+        &lt;td&gt;10&lt;/td&gt;
+        &lt;td&gt;IO12&lt;/td&gt;
+        &lt;td&gt;PWM0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;MTDO&lt;/td&gt;
+        &lt;td&gt;13&lt;/td&gt;
+        &lt;td&gt;IO15&lt;/td&gt;
+        &lt;td&gt;PWM1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;MTMS&lt;/td&gt;
+        &lt;td&gt;9&lt;/td&gt;
+        &lt;td&gt;IO14&lt;/td&gt;
+        &lt;td&gt;PWM2&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;GPIO4&lt;/td&gt;
+        &lt;td&gt;16&lt;/td&gt;
+        &lt;td&gt;IO4&lt;/td&gt;
+        &lt;td&gt;PWM3&lt;/td&gt;
+      &lt;/tr&gt;
+
+    &lt;/table&gt;
+  &lt;/div&gt;
+
+&lt;/ol&gt;
+
+&lt;h2&gt;ESP-12E y NODEMCU v1_0&lt;/h2&gt;
+&lt;p&gt;Principalmente he trabajado con el modulo ESP-12E y la tarjeta de desarrollo opensource NODEMCU v1,0&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/ESP12EPinMap.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Mapa de pines ESP12E&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/NodeMCU_DEVKIT_1_0.jpg&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;By Vowstar (Own work) [&lt;a href=&quot;http://creativecommons.org/licenses/by-sa/4.0&quot; target=&quot;_blank&quot;&gt;CC BY-SA 4.0&lt;/a&gt;], &lt;a href=&quot;https://commons.wikimedia.org/wiki/File%3ANodeMCU_DEVKIT_1.0.jpg&quot; target=&quot;_blank&quot;&gt;via Wikimedia Commons&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/NODEMCU_DEVKIT_V1.0_PINMAP.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Mapa de pines NODEMCU v1_0&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h3&gt;Referencias&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt; &lt;a href=&quot;https://www.espressif.com/sites/default/files/0a-esp8266ex_datasheet_en_1.pdf&quot; target=&quot;_blank&quot;&gt;Hoja de especificaciones ESP8266&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt; &lt;a href=&quot;https://github.com/nodemcu/nodemcu-devkit-v1.0&quot; target=&quot;_blank&quot;&gt;nodemcu-devkit-v1.0&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 16 Apr 2017 00:00:00 -0500</pubDate>
+        <link>http://unelectronica.github.io/Modulos-esp8266/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/Modulos-esp8266/</guid>
+        
+        <category>esp8266</category>
+        
+        <category>IOT</category>
+        
+        
+        <category>esp8266</category>
+        
+        <category>IOT</category>
+        
+      </item>
+    
+      <item>
+        <title>LED RGB TM4C123 LAUNCH PAD</title>
+        <description>&lt;p&gt;La tarjeta TM4C123 cuenta con un led RGB, en el IDE Energía tenemos configurados los 3 pines del led RGB
+como &lt;mark&gt;RED_LED&lt;/mark&gt;, &lt;mark&gt;GREEN_LED&lt;/mark&gt;, &lt;mark&gt;BLUE_LED&lt;/mark&gt; , con la combinación de estos 3 bit podemos obtener 8 colores.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+&lt;img class=&quot;img-responsive img-rounded&quot; src=&quot;/images/scheaticRGBTM4C123.png&quot; /&gt;
+&lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Esquemático led RGB TM4C123&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/*Hola mundo TivaC RGB*/&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#define MASK_R 0X01
+#define MASK_G 0X02
+#define MASK_B 0X04
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;pinMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RED_LED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OUTPUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;pinMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GREEN_LED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OUTPUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;pinMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BLUE_LED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OUTPUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;writeRGB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;writeRGB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;digitalWrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RED_LED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MASK_R&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;digitalWrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GREEN_LED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MASK_G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;digitalWrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BLUE_LED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MASK_B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/unelectronica/notas-microcontroladores/tree/master/TM4C123GXL%20/HolaMundoRGB&quot;&gt;GitHub code: Hola Mundo RGB&lt;/a&gt;&lt;/p&gt;
+
+&lt;iframe width=&quot;100%&quot; height=&quot;360&quot; src=&quot;https://www.youtube.com/embed/cweOei34z1E&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+</description>
+        <pubDate>Mon, 10 Apr 2017 00:00:00 -0500</pubDate>
+        <link>http://unelectronica.github.io/RGB-TM4C123-LaunchPad/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/RGB-TM4C123-LaunchPad/</guid>
+        
+        <category>TivaC</category>
+        
+        
+        <category>TivaC</category>
+        
+      </item>
     
       <item>
         <title>TM4C129 LaunchPad</title>
@@ -36,8 +332,8 @@
 
 </description>
         <pubDate>Sun, 09 Apr 2017 00:00:00 -0500</pubDate>
-        <link>http://localhost:4001/TM4C129-LaunchPad/</link>
-        <guid isPermaLink="true">http://localhost:4001/TM4C129-LaunchPad/</guid>
+        <link>http://unelectronica.github.io/TM4C129-LaunchPad/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/TM4C129-LaunchPad/</guid>
         
         <category>TivaC</category>
         
@@ -74,8 +370,8 @@
 
 </description>
         <pubDate>Sun, 09 Apr 2017 00:00:00 -0500</pubDate>
-        <link>http://localhost:4001/TM4C123-LaunchPad/</link>
-        <guid isPermaLink="true">http://localhost:4001/TM4C123-LaunchPad/</guid>
+        <link>http://unelectronica.github.io/TM4C123-LaunchPad/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/TM4C123-LaunchPad/</guid>
         
         <category>TivaC</category>
         
@@ -87,7 +383,7 @@
       <item>
         <title>Instalación Energia</title>
         <description>&lt;h2&gt;Instalación herramientas de desarrollo TivaC LaunchPad&lt;/h2&gt;
-&lt;p&gt;Aunque generalmente prefiero trabajar directamente con el codigo C y los ToolChain GCC, en esta wiki trabajare con un entorno de desarrollo basado en el Ide de Arduino llamado  &lt;a href=&quot;http://energia.nu/&quot;&gt;Energia&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Aunque generalmente prefiero trabajar directamente con el codigo C y los ToolChain GCC, en esta página trabajare con un entorno de desarrollo basado en el Ide de Arduino llamado  &lt;a href=&quot;http://energia.nu/&quot;&gt;Energia&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Descargamos e instalamos el Ide siguiendo las instrucciones según el sistema operativo. &lt;a href=&quot;http://energia.nu/download/&quot;&gt;Descargar Energia&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Seleccionamos la tarjeta con la que vamos a trabajar ya sea la TM4C123 o la TM4C129.&lt;/li&gt;
@@ -107,8 +403,8 @@ sudo apt-get install libc6:i386&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
         <pubDate>Sun, 09 Apr 2017 00:00:00 -0500</pubDate>
-        <link>http://localhost:4001/Instalaci%C3%B3n-herramientas-de-desarrollo/</link>
-        <guid isPermaLink="true">http://localhost:4001/Instalaci%C3%B3n-herramientas-de-desarrollo/</guid>
+        <link>http://unelectronica.github.io/Instalaci%C3%B3n-herramientas-de-desarrollo/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/Instalaci%C3%B3n-herramientas-de-desarrollo/</guid>
         
         <category>TivaC</category>
         
@@ -120,6 +416,8 @@ sudo apt-get install libc6:i386&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
         <category>TivaC</category>
         
         <category>ToolChain</category>
+        
+        <category>Energia</category>
         
       </item>
     
