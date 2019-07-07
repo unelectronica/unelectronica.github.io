@@ -6,14 +6,178 @@
 </description>
     <link>http://unelectronica.github.io/</link>
     <atom:link href="http://unelectronica.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 03 Jun 2018 18:31:55 -0500</pubDate>
-    <lastBuildDate>Sun, 03 Jun 2018 18:31:55 -0500</lastBuildDate>
+    <pubDate>Sun, 07 Jul 2019 18:51:01 -0500</pubDate>
+    <lastBuildDate>Sun, 07 Jul 2019 18:51:01 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Primeros Pasos con los Stm32</title>
+        <description>&lt;p&gt;Este será el primer proyecto usando una tarjeta de desarrollo basada en el microcontrolador &lt;strong&gt;STM32F103C8T6&lt;/strong&gt; de 32 bits de la empresa STMicroelectronics, el cual posee un núcleo &lt;strong&gt;ARM Cortex-M3&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;El microcontrolador &lt;strong&gt;STM32F101C8T6&lt;/strong&gt; cuenta con las siguientes características:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Empaquetado: LQFP&lt;/li&gt;
+  &lt;li&gt;Número de pines: 48&lt;/li&gt;
+  &lt;li&gt;Núcleo: 32-bit ARM Cortex M3.&lt;/li&gt;
+  &lt;li&gt;Memoria Flash: 64 Kilobytes&lt;/li&gt;
+  &lt;li&gt;Memoria SRAM: 20 Kilobytes&lt;/li&gt;
+  &lt;li&gt;8MHz de reloj de placa.&lt;/li&gt;
+  &lt;li&gt;72 MHz de frecuencia de operación.&lt;/li&gt;
+  &lt;li&gt;1 reloj de tiempo real (RTC)&lt;/li&gt;
+  &lt;li&gt;26 entradas y salidas digitales.&lt;/li&gt;
+  &lt;li&gt;Interrupciones en todos los pines I/O.&lt;/li&gt;
+  &lt;li&gt;ADC: 2 ADC de 12-bit, 10 entradas analógicas.&lt;/li&gt;
+  &lt;li&gt;7 temporizadores de propósito general de 16 bits.&lt;/li&gt;
+  &lt;li&gt;2 puertos I2C.&lt;/li&gt;
+  &lt;li&gt;2 puertos SPI.&lt;/li&gt;
+  &lt;li&gt;3 puertos RS232 USUARTs.&lt;/li&gt;
+  &lt;li&gt;1 puerto CAN.&lt;/li&gt;
+  &lt;li&gt;Micro USB 2.0 (12 Mbit/s) para alimentación y comunicación de la placa.&lt;/li&gt;
+  &lt;li&gt;Soporta DEBUG por JTAG y SWD&lt;/li&gt;
+  &lt;li&gt;Tensión de funcionamiento entre 2 Vcc y 3.6 Vcc.&lt;/li&gt;
+  &lt;li&gt;una unidad de calculo CRC (cyclic redundancy check).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Este microcontrolador permite cargar el firmware en la memoria SRAM como en la memoria FLASH, para lo cual cuenta con un pin llamado BOOT0 y dependiendo si está a gnd o vcc el firmware se carga en una memoria o en la otra, la tarjeta de desarrollo cuenta con dos Jumpers para esta función.&lt;/p&gt;
+
+&lt;table class=&quot;table table-bordered table-hover&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope=&quot;col&quot;&gt;BOOT1&lt;/th&gt;
+      &lt;th scope=&quot;col&quot;&gt;BOOT0&lt;/th&gt;
+      &lt;th scope=&quot;col&quot;&gt;MODO&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+     &lt;td&gt;x&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;FLASH&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+     &lt;td&gt;0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;RAM&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+     &lt;td&gt;1&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Ext. SRAM&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+
+&lt;/table&gt;
+
+&lt;figure class=&quot;figure text-center&quot;&gt;
+  &lt;img src=&quot;/images/STM32/BOOT-SELECTOR.png&quot; class=&quot;figure-img img-fluid rounded&quot; /&gt;
+  &lt;figcaption class=&quot;figure-caption&quot;&gt;Jumpers selección de Boot.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;hr /&gt;
+&lt;p&gt;La placa puede ser programada por dos métodos, mediante un adaptador USB-SERIE o con el adaptador ST-LINK este último es un programador específico para los microcontroladores de la familia STM32 y STM8 el cual permite realizar procesos de depuración a través de un puerto SWD.&lt;/p&gt;
+
+&lt;figure class=&quot;figure col-md-6&quot;&gt;
+    &lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/st-link-v2.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Adaptador ST-LINK.&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;figure class=&quot;figure col-md-6&quot;&gt;
+    &lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/conversor-usb-a-serie.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Conversor USB a serie.&lt;/figcaption&gt;
+  &lt;/figure&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;programación-de-la-tarjeta&quot;&gt;Programación de la tarjeta&lt;/h2&gt;
+
+&lt;p&gt;Como entorno de desarrollo usaremos Platformio en Visual estudio code, la primera parte consiste en instalar las Herramientas necesarias para manejar las  placas STM32.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Instalar la extensión de Platformio para Visual studio code
+    &lt;figure class=&quot;figure&quot;&gt; 
+&lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/extensionPlatformio.png&quot; /&gt;
+&lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Instalación extensión Platformio&lt;/figcaption&gt;
+&lt;/figure&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Instalar herramientas de desarrollo para las placas STM32
+    &lt;figure class=&quot;figure&quot;&gt; 
+&lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/platformio_plataform.png&quot; /&gt;
+&lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Instalación plataforma STM32&lt;/figcaption&gt;
+&lt;/figure&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Crear un nuevo proyecto, seleccionando en board: &lt;strong&gt;STM32F103C8 (20k RAM. 64k Flash) (Generic)&lt;/strong&gt; y FlameWork: &lt;strong&gt;Arduino&lt;/strong&gt;.
+    &lt;figure class=&quot;figure&quot;&gt; 
+&lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/nuevoProyecto.png&quot; /&gt;
+&lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Configuración nuevo proyecto&lt;/figcaption&gt;
+&lt;/figure&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;En el archivo &lt;strong&gt;platformio.ini&lt;/strong&gt; .&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;upload_protocol = stlink
+
+debug_tool = stlink
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;figure class=&quot;figure&quot;&gt; 
+&lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/platformio_ini.png&quot; /&gt;
+&lt;figcaption class=&quot;figure-caption text-center&quot;&gt;platformio.ini&lt;/figcaption&gt;
+&lt;/figure&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;La tarjeta desarrollo cuenta con un led conectado al pin PC13, en la siguiente imagen se puede observar el diagrama de entradas y salidas de la tarjeta.&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/STM32F103C8T6_PINOUT.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Pinout tarjeta de desarrollo&lt;/figcaption&gt;
+  &lt;/figure&gt;
+
+&lt;h3 id=&quot;código&quot;&gt;Código:&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;Arduino.h&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;pinMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PC13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OUTPUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;digitalWrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PC13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HIGH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;digitalWrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PC13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LOW&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;subiendo-el-código&quot;&gt;Subiendo el código&lt;/h3&gt;
+
+&lt;p&gt;Conectamos la tarjeta con el programador ST-LINK V2, y con el botón de upload de platformio subimos el programa a la tarjeta.&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive rounded img-fluid&quot; src=&quot;/images/STM32/load.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Programación STM32F101C8T6&lt;/figcaption&gt;
+  &lt;/figure&gt;
+
+&lt;h3&gt;Referencias&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt; &lt;a href=&quot;https://platformio.org/&quot; target=&quot;_blank&quot;&gt;Platformio&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt; &lt;a href=&quot;https://docs.platformio.org/en/latest/boards/ststm32/genericSTM32F103C8.html&quot; target=&quot;_blank&quot;&gt; Platformio STM32&lt;/a&gt;&lt;/li&gt;
+
+  &lt;li&gt; &lt;a href=&quot;https://www.st.com/resource/en/datasheet/stm32f103c8.pdf&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Hoja de datos&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt; &lt;a href=&quot;https://www.st.com/content/ccc/resource/technical/document/reference_manual/59/b9/ba/7f/11/af/43/d5/CD00171190.pdf/files/CD00171190.pdf/jcr:content/translations/en.CD00171190.pdf&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Manual de referencia&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt; &lt;a href=&quot;http://reblag.dk/wordpress/wp-content/uploads/2016/07/The-Generic-STM32F103-Pinout-Diagram.pdf&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; PINOUT PDF (http://reblag.dk/stm32/)&lt;/a&gt;&lt;/li&gt;
+
+&lt;/ul&gt;
+&lt;h3&gt;Código&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/unelectronica/notas-microcontroladores/tree/master/STM32F108C8/blinkLed&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-github&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Blink STM32&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 07 Jul 2019 00:00:00 -0500</pubDate>
+        <link>http://unelectronica.github.io/hola_mundo_STM32/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/hola_mundo_STM32/</guid>
+        
+        <category>STM32</category>
+        
+        
+        <category>STM32</category>
+        
+      </item>
     
       <item>
         <title>MQTT ESP8266</title>
         <description>&lt;p&gt;En esta práctica con el módulo ESP8266  implementaremos una conexión con un servidor MQTT (Message Queue Telemetry Transport)   &lt;/p&gt;
-&lt;p&gt;Usaremos la tarjeta NodeMCU_DEVKIT_1_0 y por medio del protocolo MQTT controlaremos un aled que viene en esta tarjeta de desarrollo.&lt;/p&gt;
+&lt;p&gt;Usaremos la tarjeta NodeMCU_DEVKIT_1_0 y por medio del protocolo MQTT controlaremos un led que viene en esta tarjeta de desarrollo.&lt;/p&gt;
 
 &lt;h1&gt; MQTT &lt;/h1&gt;
 &lt;p&gt;Es un protocolo de comunicación basado en el envío y recepción de mensajes el cual esta orientado al las comunicaciones maquina a maquina en el internet de las cosas, el MQTT se destaca principalmente por su sencillez, escalabilidad, bajo consumo de ancho de banda, la comunicación puede ser de uno a uno o de uno a muchos y los pocos recursos necesario para su implementación.&lt;/p&gt;
@@ -22,7 +186,7 @@
    &lt;img class=&quot;MQTT arquitectura&quot; src=&quot;/images/mqtt.png&quot; /&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;En este proyecto usaremos un servidor de MQTT llamado mosquitto corriendo en una raspberry pi, para la implementación en el espe8266 usaremos la libreria PubSubClient y nos subscribiremos a un topic MQTT   llamado “casa/led”&lt;/p&gt;
+&lt;p&gt;En este proyecto usaremos un servidor de MQTT llamado mosquitto corriendo en una raspberry pi, para la implementación en el esp8266 usaremos la librería PubSubClient y nos subscribiremos a un topic MQTT   llamado “casa/led”&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;ESP8266WiFi.h&amp;gt;
 #include &amp;lt;PubSubClient.h&amp;gt;
