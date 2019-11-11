@@ -6,9 +6,129 @@
 </description>
     <link>http://unelectronica.github.io/</link>
     <atom:link href="http://unelectronica.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 07 Jul 2019 18:51:01 -0500</pubDate>
-    <lastBuildDate>Sun, 07 Jul 2019 18:51:01 -0500</lastBuildDate>
+    <pubDate>Sun, 10 Nov 2019 21:16:26 -0500</pubDate>
+    <lastBuildDate>Sun, 10 Nov 2019 21:16:26 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>PROTOCOLO I2C</title>
+        <description>&lt;p&gt;El bus I2C (Inter-Integrated Circuit), es un bus de datos serial  diseñado por &lt;b&gt;Philips&lt;/b&gt; en la actualidad &lt;b&gt;NXP Semiconductors&lt;/b&gt; para la comunicación de circuitos integrados o módulos, este bus diferentes dispositivos intercambian datos e instrucciones, con solo dos cables lo cual simplifica de manera considerable los circuitos.
+  El protocolo I2C es empleado por gran cantidad de dispositivos como memorias, sensores y otros circuitos integrados.
+  Permite interconectar hasta 112 dispositivos a la vez, cada dispositivo se identificara con una direccion de memoria única. Debe existir un dispositivo maestro y uno o más esclavos. la velocidad puede variar, aunque esta entre 100 y 400 KHz.&lt;br /&gt;
+  Las dos lineas que se usan en el protocolo I2C son SDA que es la línea por donde se transmiten los datos y  la línea SCL, que es la que transmite la señal de reloj,  en este protocolo el que controla el bus es el dispositivo maestro y los controlados por el maestro son los dispositivos esclavos.&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/I2C/i2c.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Conexión dispositivos bus  I2C&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;h3 id=&quot;descripción-del-protocolo&quot;&gt;Descripción del protocolo&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Cuando la línea de datos (SDA) y la señal de reloj (SCL) tienen un valor alto, el bus no se encuentra ocupado.&lt;/li&gt;
+  &lt;li&gt;El cambio de estado de la línea SDA de un valor alto a un valor bajo, cuando la línea SCL esta en un valor alto, define el inicio de la transferencia de los datos.&lt;/li&gt;
+  &lt;li&gt;EL cambio de estado de la línea SDA de un valor bajo a alto, cuando la linea SCL esta en un valor alto, define el paro de la transferencia de datos.&lt;/li&gt;
+  &lt;li&gt;Los datos se transmiten entre el inicio y la señal de paro.&lt;/li&gt;
+  &lt;li&gt;Después del inicio de transferencia de datos, la línea SDA es estable durante los  periodos altos de la señal SCL, pero puede cambiar durante los periodos bajos de la señal SCL.&lt;/li&gt;
+  &lt;li&gt;Sóo hay un pulso de la señal SCL por cada bit de datos transmitido sin límite en el número de bytes de datos que es posible entre las condiciones de inicio y fin, después de cada byte de datos, el receptor envía un reconocimiento a través del noveno bit.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;El bit de reconocimiento es de nivel alto colocado en el bus por el transmisor, un valor bajo colocado por el receptor.&lt;/p&gt;
+
+    &lt;figure class=&quot;figure&quot;&gt;
+  &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/I2C/i2c_condiciones.png&quot; /&gt;
+  &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Condiciones I2C&lt;/figcaption&gt;
+&lt;/figure&gt;
+    &lt;p&gt;La información a transmitir dentro de las tramas irá en paquetes que contienen la dirección del dispositivo al que va dirigida dicha información y paquetes que configuran o comandan el dispositivo de acuerdo a sus especificaciones, la primera trama de información que se transmite, contiene solo siete bits y corresponderá a la dirección del esclavo que debe recibirla; en el octavo bit, le indicará la operación a realizar un “1” para lectura y un “0” para escritura.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ejemplo-escaner-i2c&quot;&gt;Ejemplo escaner I2C&lt;/h3&gt;
+&lt;p&gt;Para este ejemplo usaremos como maestro la placa nodemcu-v1.0 y como esclavo un módulo GY-521 que es IMU con 6 grados de libertad, el cual combina un acelerómetro de 3 ejes y un giroscopio de 3 ejes.&lt;/p&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/I2C/i2c_acelerometro.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Esquema de montaje&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/I2C/node-gy521.png&quot; /&gt;
+    
+  &lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;Arduino.h&amp;gt;
+#include &amp;lt;Wire.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;pinMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OUTPUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;115200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Wire&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;D1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* I2C bus  SDA=D2 and SCL=D1 */&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;byte&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nDevices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Escaneando...&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;**************&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;nDevices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;127&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;Wire&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;beginTransmission&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wire&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;endTransmission&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Encontrado dispositivo I2C dirección 0x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HEX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;nDevices&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Serial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;**************&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; 
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;En la siguiente imagen se puede observar la salida por el puerto serie, y la captura de la trama del protocolo I2C capturada con la ayuda de un analizador lógico.&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/I2C/monitor_serie.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Salida monitor serie&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+    &lt;img class=&quot;img-responsive img-rounded img-fluid&quot; src=&quot;/images/I2C/i2c_logic.png&quot; /&gt;
+    &lt;figcaption class=&quot;figure-caption text-center&quot;&gt;Salida analizador lógico&lt;/figcaption&gt;
+  &lt;/figure&gt;
+
+&lt;h3 id=&quot;descargas&quot;&gt;Descargas&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/nodemcu/nodemcu-devkit-v1.0&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-github&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Nodemcu-devkit-v1.0&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;código&quot;&gt;Código&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/unelectronica/notas-microcontroladores/tree/master/ESP8266/I2C&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-github&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Escaner I2C&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 10 Nov 2019 00:00:00 -0500</pubDate>
+        <link>http://unelectronica.github.io/I2C_esp8266/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/I2C_esp8266/</guid>
+        
+        <category>esp8266</category>
+        
+        <category>IOT</category>
+        
+        <category>Arduino</category>
+        
+        
+        <category>esp8266</category>
+        
+        <category>IOT,</category>
+        
+        <category>Arduino</category>
+        
+      </item>
     
       <item>
         <title>Primeros Pasos con los Stm32</title>
