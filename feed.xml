@@ -6,19 +6,19 @@
 </description>
     <link>http://unelectronica.github.io/</link>
     <atom:link href="http://unelectronica.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 17 Feb 2021 21:16:55 -0500</pubDate>
-    <lastBuildDate>Wed, 17 Feb 2021 21:16:55 -0500</lastBuildDate>
+    <pubDate>Thu, 18 Feb 2021 09:29:18 -0500</pubDate>
+    <lastBuildDate>Thu, 18 Feb 2021 09:29:18 -0500</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
         <title>Instalación Broker MQTT emqx</title>
         <description>&lt;h2 id=&quot;qué-es-emqx&quot;&gt;¿Qué es EMQX?&lt;/h2&gt;
 
-&lt;p&gt;EMQX es un broker MQTT de código abierto altamente escalable y permite la creación de un cluster con múltiples nodos lo que permite el manejo de miles de conexiones, EMQX permite su gestión a través de un dashboard muy completo e integra varios plugins que facilitan el manejo de usuarios y reglas para administrar los permisos de cada uno.&lt;/p&gt;
+&lt;p&gt;EMQX es un broker MQTT de código abierto altamente escalable y permite la creación de un cluster con múltiples nodos lo que facilita el manejo de miles de conexiones, EMQX permite su gestión a través de un dashboard muy completo e integra varios plugins que facilitan el manejo de usuarios y reglas para administrar los permisos de cada uno.&lt;/p&gt;
 
 &lt;h2 id=&quot;instalación&quot;&gt;Instalación&lt;/h2&gt;
 
-&lt;p&gt;Por Simplicidad se corre un contenedor Docker del broker EMQX sobre una Raspberry Pi 3&lt;/p&gt;
+&lt;p&gt;Para la instalación del broker se puede sar Docker corriendo un contenedor con una instancia de EMQX sobre una Raspberry Pi 3&lt;/p&gt;
 
 &lt;h3 id=&quot;instalación-docker&quot;&gt;Instalación docker&lt;/h3&gt;
 
@@ -34,7 +34,7 @@
 
 &lt;p&gt;luego de que termine la descarga de la imagen e inicie el contenedor se puede acceder al broker EMQX mediante el navegador en la dirección &lt;strong&gt;http://ip_raspberry:18083&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;las credenciales iniciales son username = &lt;strong&gt;admin&lt;/strong&gt; y password = &lt;strong&gt;public&lt;/strong&gt;, luego de acceder se pueden cambiar las credenciales en la pestaña &lt;strong&gt;Users&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;las credenciales por defecto son username = &lt;strong&gt;admin&lt;/strong&gt; y password = &lt;strong&gt;public&lt;/strong&gt;, luego de acceder se pueden cambiar las credenciales en la pestaña &lt;strong&gt;Users&lt;/strong&gt;&lt;/p&gt;
 
 &lt;figure class=&quot;figure&quot;&gt;
    &lt;img class=&quot;Dashboard Emqx&quot; src=&quot;/images/emqx/emqx_1.png&quot; /&gt;
