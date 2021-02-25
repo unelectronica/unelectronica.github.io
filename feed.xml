@@ -6,9 +6,145 @@
 </description>
     <link>http://unelectronica.github.io/</link>
     <atom:link href="http://unelectronica.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 18 Feb 2021 09:29:18 -0500</pubDate>
-    <lastBuildDate>Thu, 18 Feb 2021 09:29:18 -0500</lastBuildDate>
+    <pubDate>Wed, 24 Feb 2021 22:11:16 -0500</pubDate>
+    <lastBuildDate>Wed, 24 Feb 2021 22:11:16 -0500</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
+    
+      <item>
+        <title>HOLA MUNDO RASPBERRY PI PICO</title>
+        <description>&lt;p&gt;La raspberry pi pico es una tarjeta de desarrollo de la fundación Raspberry pi basada en el RP2040, el cual es un microcontrolador dual core diseñado por la fundación.&lt;/p&gt;
+
+&lt;h3 id=&quot;características-principales-del--rp4020&quot;&gt;Características principales del  RP4020&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dual core ARM Cortex M0&lt;/li&gt;
+  &lt;li&gt;Reloj flexible de 133 MHz&lt;/li&gt;
+  &lt;li&gt;264KB de SRAM&lt;/li&gt;
+  &lt;li&gt;2MB de memoria flash&lt;/li&gt;
+  &lt;li&gt;USB 1.1&lt;/li&gt;
+  &lt;li&gt;26 GPIOs&lt;/li&gt;
+  &lt;li&gt;2 SPI&lt;/li&gt;
+  &lt;li&gt;2 I2C&lt;/li&gt;
+  &lt;li&gt;3 ADC de 12 bits&lt;/li&gt;
+  &lt;li&gt;16 canales PWM&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;figure&quot;&gt;
+   &lt;img class=&quot;websocket pruebas&quot; src=&quot;/images/pi_pico/Pi-Pico-pinout-diagram.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;herramientas-de-desarrollo&quot;&gt;Herramientas de desarrollo&lt;/h2&gt;
+
+&lt;p&gt;Actualmente la tarjeta se puede programar usando Micropython y un SDK de C, aunque se a anunciado que próximamente se integrará al IDE de Arduino.&lt;/p&gt;
+
+&lt;h3 id=&quot;instalación-sdk-c&quot;&gt;Instalación SDK C&lt;/h3&gt;
+
+&lt;p&gt;se procede a instalar en Ubuntu 20.04 las herramientas necesarias para el trabajo con la SDK &lt;strong&gt;pico_sdk&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Compilador gcc para procesadores arm&lt;/li&gt;
+  &lt;li&gt;CMake&lt;/li&gt;
+  &lt;li&gt;build-essential&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Clonamos el repositorio del SDK pico-sdk&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; master https://github.com/raspberrypi/pico-sdk.git
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;pico-sdk
+git submodule update &lt;span class=&quot;nt&quot;&gt;--init&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Se añade  la siguiente linea al archivo &lt;strong&gt;.bashrc&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export PICO_SDK_PATH={ruta sdk}/pico-sdk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;instalación-extensiones-de-visualstudio-code&quot;&gt;Instalación extensiones de VisualStudio Code&lt;/h3&gt;
+
+&lt;p&gt;Para trabajar con la tarjeta  usaremos el Ide de  VisualStudio Code, se instalan las siguientes extensiones que nos facilitan el trabajo con cmake&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  code &lt;span class=&quot;nt&quot;&gt;--install-extension&lt;/span&gt; marus25.cortex-debug
+  code &lt;span class=&quot;nt&quot;&gt;--install-extension&lt;/span&gt; ms-vscode.cmake-tools
+  code &lt;span class=&quot;nt&quot;&gt;--install-extension&lt;/span&gt; ms-vscode.cpptools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;hola-mundo&quot;&gt;Hola mundo&lt;/h3&gt;
+&lt;p&gt;En este ejemplo se hace parpadear el led que viene con la tarjeta, el cual se encuentra conectado al pin 25 del microcontrolador.
+Se crea una carpeta y se abre con VisualStudio code, se crean los siguientes archivos :&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CMakeLists.txt&lt;/strong&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cmake&quot; data-lang=&quot;cmake&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cmake_minimum_required&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;VERSION 3.1&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;{path pico_sdk}/external/pico_sdk_import.cmake&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;blink&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;pico_sdk_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;main
+    main.c
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nf&quot;&gt;pico_add_extra_outputs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;main&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;main pico_stdlib&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;main.c&lt;/strong&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &quot;pico/stdlib.h&quot;
+#include &quot;hardware/gpio.h&quot;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LED_PIN&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gpio_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LED_PIN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gpio_set_dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LED_PIN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GPIO_OUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;gpio_put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LED_PIN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sleep_ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;gpio_put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LED_PIN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sleep_ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;luego de creado los dos archivos se procede a hacer click  en el botón &lt;strong&gt;versión de compilación&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;figure&quot;&gt;
+   &lt;img class=&quot;websocket pruebas&quot; src=&quot;/images/pi_pico/build_vcode.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Por ultimo se conecta la tarjeta al puerto usb manteniendo pulsado el botón blanco, el computador la reconocerá como un medio de almacenamiento y se procede a copiar el archivo &lt;strong&gt;main.uf2&lt;/strong&gt; que se genero la carpeta &lt;strong&gt;build&lt;/strong&gt; del proyecto.&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/S-q6hmXemwY&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;h3&gt;Referencias&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-file&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://datasheets.raspberrypi.org/pico/pico-datasheet.pdf&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-file&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; https://datasheets.raspberrypi.org/pico/pico-datasheet.pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.raspberrypi.org/products/raspberry-pi-pico/&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; https://www.raspberrypi.org/products/raspberry-pi-pico&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/raspberrypi/pico-sdk&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-github&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; https://github.com/raspberrypi/pico-sdk&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/raspberrypi/pico-examples&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-github&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; https://github.com/raspberrypi/pico-examples&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/unelectronica/notas-microcontroladores/tree/master/PI_PICO/blink&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-github&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; código blink&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Feb 2021 00:00:00 -0500</pubDate>
+        <link>http://unelectronica.github.io/pi_pico_helloWord_SDK/</link>
+        <guid isPermaLink="true">http://unelectronica.github.io/pi_pico_helloWord_SDK/</guid>
+        
+        <category>Pico</category>
+        
+        
+        <category>PI_PICO</category>
+        
+      </item>
     
       <item>
         <title>Instalación Broker MQTT emqx</title>
@@ -63,6 +199,8 @@
 &lt;h2 id=&quot;referencias&quot;&gt;Referencias&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://docs.emqx.io/en/broker/latest/&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Documentación broker EMQX&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/r/emqx/emqx&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa-link&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;https://hub.docker.com/r/emqx/emqx&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 17 Feb 2021 00:00:00 -0500</pubDate>
         <link>http://unelectronica.github.io/emqx_docker/</link>
@@ -1076,47 +1214,6 @@ como &lt;mark&gt;RED_LED&lt;/mark&gt;, &lt;mark&gt;GREEN_LED&lt;/mark&gt;, &lt;m
         
         
         <category>TivaC</category>
-        
-      </item>
-    
-      <item>
-        <title>Instalación Energia</title>
-        <description>&lt;h2&gt;Instalación herramientas de desarrollo TivaC LaunchPad&lt;/h2&gt;
-&lt;p&gt;Aunque generalmente prefiero trabajar directamente con el codigo C y los ToolChain GCC, en esta página trabajare con un entorno de desarrollo basado en el Ide de Arduino llamado  &lt;a href=&quot;http://energia.nu/&quot;&gt;Energia&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Descargamos e instalamos el Ide siguiendo las instrucciones según el sistema operativo. &lt;a href=&quot;http://energia.nu/download/&quot;&gt;Descargar Energia&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Seleccionamos la tarjeta con la que vamos a trabajar ya sea la TM4C123 o la TM4C129.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/SeleccionarPlacaEnergia&quot; width=&quot;800&quot; align=&quot;center&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Para los usuarios en linux de 64 bits  se nos puede presentar el siguiente error :
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;arm-none-eabi-g++: No such file or directory&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Lo solucionamos desde la consola&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;dpkg &lt;span class=&quot;nt&quot;&gt;--add-architecture&lt;/span&gt; i386   
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update  
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libc6:i386&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-</description>
-        <pubDate>Sun, 09 Apr 2017 00:00:00 -0500</pubDate>
-        <link>http://unelectronica.github.io/Instalaci%C3%B3n-herramientas-de-desarrollo/</link>
-        <guid isPermaLink="true">http://unelectronica.github.io/Instalaci%C3%B3n-herramientas-de-desarrollo/</guid>
-        
-        <category>TivaC</category>
-        
-        <category>ToolChain</category>
-        
-        <category>Energia</category>
-        
-        
-        <category>TivaC</category>
-        
-        <category>ToolChain</category>
-        
-        <category>Energia</category>
         
       </item>
     
